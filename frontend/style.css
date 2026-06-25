@@ -1,0 +1,325 @@
+/* =========================
+   Google Font:
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #f4f3ef;
+    --surface: rgba(255, 255, 255, 0.9);
+    --surface-soft: #faf9f7;
+
+    --primary: #2f6f62;
+    --primary-hover: #275c52;
+
+    --accent: #d6a85f;
+
+    --text: #1f2933;
+    --text-muted: #667085;
+
+    --border: #e7e5df;
+
+    --shadow:
+        0 10px 25px rgba(15, 23, 42, 0.05),
+        0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+body {
+    font-family: "Manrope", sans-serif;
+    background: linear-gradient(
+        180deg,
+        #f8f7f4 0%,
+        #f2f0eb 100%
+    );
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 48px 20px;
+}
+
+/* ===== Layout ===== */
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ===== Header ===== */
+
+.header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.header h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.header p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
+
+/* ===== Cards ===== */
+
+.card {
+    background: var(--surface);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(0, 0, 0, 0.05);
+
+    border-radius: 22px;
+
+    padding: 30px;
+
+    margin-bottom: 24px;
+
+    box-shadow: var(--shadow);
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text);
+}
+
+/* ===== Form ===== */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    color: var(--text);
+}
+
+input,
+textarea {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: #fcfcfb;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text);
+
+    transition: all 0.25s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #9aa4b2;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+
+    border-color: var(--primary);
+
+    background: #fff;
+
+    box-shadow:
+        0 0 0 4px rgba(47, 111, 98, 0.12);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+/* ===== Main Button ===== */
+
+.btn {
+    width: 100%;
+
+    padding: 15px 20px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: var(--primary);
+    color: white;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* ===== Loading ===== */
+
+#loading {
+    text-align: center;
+    padding: 16px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* ===== Output ===== */
+
+.result-box {
+    margin-bottom: 24px;
+}
+
+.result-box h3,
+.score-box h3,
+.reason-box h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+#reply {
+    background: var(--surface-soft);
+}
+
+/* ===== Score Section ===== */
+
+.score-container {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 18px;
+
+    margin-bottom: 24px;
+}
+
+.score-box,
+.reason-box {
+    background: var(--surface-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    padding: 20px;
+}
+
+#score {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+
+    color: var(--primary);
+}
+
+#reasoning {
+    color: var(--text-muted);
+}
+
+/* ===== Action Buttons ===== */
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.action-buttons button {
+    flex: 1;
+
+    padding: 13px;
+
+    border-radius: 14px;
+
+    border: 1px solid var(--border);
+
+    background: #f4f1ea;
+
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.action-buttons button:hover {
+    background: #ece7dd;
+    transform: translateY(-1px);
+}
+
+/* ===== Scrollbar ===== */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #efede8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c8c2b8;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b7b0a4;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 768px) {
+    body {
+        padding: 24px 14px;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .score-container {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    #score {
+        font-size: 2.5rem;
+    }
+}
