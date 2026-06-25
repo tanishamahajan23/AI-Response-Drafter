@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lead Response Drafter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+
+        <header class="header">
+            <h1>Topo: Your AI Lead Response Drafter</h1>
+            <p>
+                Generate personalized replies and score incoming real estate leads.
+            </p>
+        </header>
+
+        
+        <section class="card">
+
+            <h2>Enter the following Details</h2>
+
+            <form id="inputForm">
+
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="e.g. Ahmed K."
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="interest">Property / Area of Interest</label>
+                    <input
+                        type="text"
+                        id="interest"
+                        placeholder="e.g. 2BR, Dubai Marina"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message Received</label>
+                    <textarea
+                        id="message"
+                        rows="6"
+                        placeholder="Paste the lead's message here..."
+                        required
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="btn">
+                    Generate Reply
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Output Section -->
+        <section class="card">
+
+            <h2>AI Analysis</h2>
+
+            <!-- Loading -->
+            <div id="loading" hidden>
+                Generating response...
+            </div>
+
+            <div id="output">
+
+                <div class="result-box">
+                    <h3>Suggested Reply</h3>
+
+                    
+                    <textarea
+                        id="reply"
+                        rows="7"
+                        placeholder="AI-generated reply will appear here..."
+                    ></textarea>
+                </div>
+
+
+                <div class="score-container">
+
+                    <div class="score-box">
+                        <h3>Lead Score</h3>
+                        <p id="score">--/10</p>
+                    </div>
+
+                    <div class="reason-box">
+                        <h3>Reasoning</h3>
+                        <p id="reasoning">
+                            Lead analysis will appear here.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="action-buttons">
+                    <button type="button" id="copyBtn">
+                        Copy Reply
+                    </button>
+
+                    <button type="button" id="clearBtn">
+                        Clear
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
