@@ -2,6 +2,7 @@
   "name": "ai-response-drafter",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,12 +14,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/tanishamahajan23/AI-Response-Drafter/issues"
   },
   "homepage": "https://github.com/tanishamahajan23/AI-Response-Drafter#readme",
   "dependencies": {
+    "@google/genai": "^2.10.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1"
   }
 }
