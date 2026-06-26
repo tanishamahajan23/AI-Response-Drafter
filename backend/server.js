@@ -14,3 +14,4 @@ app.post("/generate", (req, res) => {
 app.get("/", (req,res)=>{
     cosole.log("Server working.")
 })
+
