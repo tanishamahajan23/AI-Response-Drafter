@@ -12,8 +12,6 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
-console.log(process.env.GEMINI_API_KEY);
-
 app.get("/", (req, res) => {
     console.log("Received request at /");
     res.send("Server working.");
@@ -43,7 +41,7 @@ Your tasks are:
 2. Evaluate the quality of the lead and assign a score from 1 to 10.
 3. Briefly explain why the lead received that score.
 
-Respond with ONLY a valid JSON object. Do not include markdown, code fences, or any text outside the JSON.
+Respond with ONLY a valid text. Do not include markdown, code fences, or anything outside the valid text.
 
 Use exactly this structure:
 
@@ -104,11 +102,11 @@ Requirements for "reasoning":
 * Example:
   "The lead provided a clear budget and specified Dubai Marina, indicating genuine interest. However, no purchase timeline or contact details were provided."
 
-Return ONLY valid JSON.
+Return ONLY valid text.
 
 `;
     const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-lite",
+    model: "gemini-3.1-flash-lite",
     config: {
         responseMimeType: "application/json"
     },
@@ -119,7 +117,7 @@ Return ONLY valid JSON.
     console.log("Response from AI:", text);
     const result = JSON.parse(text);
 
-    res.json(result);
+    res.send(JSON.stringify(result));
     
 }
 catch (error) {

@@ -20,31 +20,55 @@ form.addEventListener("submit", async (event) => {
 
     loading.hidden = false;
 
-    try {
+    // try {
 
         
+    //     const formData = {
+    //         name: nameInput.value,
+    //         interest: interestInput.value,
+    //         message: messageInput.value
+    //     };
+
+    //     // Send data to backend
+    //     const response = await fetch("http://localhost:3000/generate", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify(formData)
+    //     });
+
+    //     const data = await response.json();
+
+    //     replyBox.value = data.reply;
+    //     scoreBox.textContent = `${data.score}/10`;
+    //     reasoningBox.textContent = data.reasoning;
+    //}
+    try {
         const formData = {
-            name: nameInput.value,
+             name: nameInput.value,
             interest: interestInput.value,
-            message: messageInput.value
-        };
+             message: messageInput.value
+         };
 
-        // Send data to backend
-        const response = await fetch("http://localhost:3000/generate", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        });
+    const response = await fetch("http://127.0.0.1:3000/generate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    });
 
-        const data = await response.json();
+    const text = await response.text();
+
+    const data = JSON.parse(text);
 
         replyBox.value = data.reply;
         scoreBox.textContent = `${data.score}/10`;
         reasoningBox.textContent = data.reasoning;
 
-    } catch (error) {
+}
+catch (error) {
 
         console.error(error);
 
@@ -54,31 +78,6 @@ form.addEventListener("submit", async (event) => {
             "Could not generate response.";
 
     } 
-//     try {
-//         const formData = {
-//              name: nameInput.value,
-//             interest: interestInput.value,
-//              message: messageInput.value
-//          };
-
-//     const response = await fetch("http://127.0.0.1:3000/generate", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(formData)
-//     });
-
-//     console.log("Status:", response.status);
-//     console.log("OK:", response.ok);
-
-//     const text = await response.text();
-//     console.log("Raw response:", text);
-
-// }
-// catch (error) {
-//     console.error("Frontend catch:", error);
-// }
     finally {
 
         
