@@ -1,46 +1,117 @@
 import 'dotenv/config';
+import cors from "cors";
 import express from "express";
 import { GoogleGenAI } from '@google/genai';
 
 const app=express();
+
+app.use(cors());
+app.use(express.json());
+
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
 console.log(process.env.GEMINI_API_KEY);
 
+app.get("/", (req, res) => {
+    console.log("Received request at /");
+    res.send("Server working.");
+});
+
 const port= process.env.PORT || 3000;
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 });
 
-app.use(express.json());
+
 app.post("/generate", async (req, res) => {
 try{
     const formData=req.body;
-    const prompt = `
+    const prompt =`
 Lead Name: ${formData.name}
 Interest: ${formData.interest}
 Lead Message: ${formData.message}
 
-You are an assistant for a Dubai real estate brokerage. Given an incoming
-lead, you write a warm, professional first-response message and score the
-lead's quality.
-Respond with ONLY a valid JSON object, no markdown, no preamble. Use exactly
-this shape:
+You are an experienced real estate broker working for a premium Dubai real estate brokerage.
+
+You will receive details of an incoming lead.
+
+Your tasks are:
+
+1. Write a warm, professional first-response message that the broker can send to the lead.
+2. Evaluate the quality of the lead and assign a score from 1 to 10.
+3. Briefly explain why the lead received that score.
+
+Respond with ONLY a valid JSON object. Do not include markdown, code fences, or any text outside the JSON.
+
+Use exactly this structure:
+
 {
-  "reply": "<the draft message the agent can send, 3-5 sentences>",
-  "score": <integer 1-10>,
-  "reasoning": "<one or two sentences explaining the score>"
+"reply": "<broker's response>",
+"score": <integer 1-10>,
+"reasoning": "<brief explanation>"
 }
 
-Scoring guidance:- Higher scores for: clear budget, urgency, specific property/area,
-  contact details, ready-to-buy language.- Lower scores for: vague messages, no specifics, browsing-only language.
+Requirements for "reply":
 
-Reply should be friendly, professional and not pushy and reference what the lead asked about.
+* Write as if a real human broker is personally responding.
+* The tone should be warm, confident, conversational, and professional.
+* Avoid sounding robotic, scripted, or overly enthusiastic.
+* Do NOT use generic AI phrases such as:
+
+  * "I hope this message finds you well"
+  * "Thank you for reaching out"
+  * "We are delighted"
+  * "Feel free to contact us anytime"
+* Acknowledge the lead's specific request naturally.
+* Mention the property type, location, budget, or requirements if provided.
+* Ask 1-2 relevant follow-up questions only if important information is missing.
+* Keep the message concise (3-5 sentences).
+* Do not be pushy or salesy.
+* Do not invent information that the lead did not provide.
+
+Lead scoring criteria (1-10):
+
+Score 9-10:
+
+* Strong buying intent
+* Clear budget
+* Specific property/area mentioned
+* Urgency or timeline provided
+* Contact details provided
+* Ready-to-buy or ready-to-view language
+
+Score 7-8:
+
+* Genuine interest with some specifics, but missing a few details
+
+Score 4-6:
+
+* Moderate interest but vague requirements
+* Mostly exploratory enquiries
+
+Score 1-3:
+
+* Very vague enquiry
+* Browsing-only intent
+* No meaningful details or signs of commitment
+
+Requirements for "reasoning":
+
+* Explain in 1-2 concise sentences why the lead received the score.
+* Mention both positive signals and missing information where applicable.
+* Example:
+  "The lead provided a clear budget and specified Dubai Marina, indicating genuine interest. However, no purchase timeline or contact details were provided."
+
+Return ONLY valid JSON.
+
 `;
     const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-2.5-flash-lite",
+    config: {
+        responseMimeType: "application/json"
+    },
     contents: prompt
 })
 
@@ -49,6 +120,7 @@ Reply should be friendly, professional and not pushy and reference what the lead
     const result = JSON.parse(text);
 
     res.json(result);
+    
 }
 catch (error) {
 
@@ -59,7 +131,5 @@ catch (error) {
         });
 }
 });
-app.get("/", (req, res) => {
-    res.send("Server working.");
-});
+
 

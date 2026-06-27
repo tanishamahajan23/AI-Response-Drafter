@@ -5,8 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tanishamahajan23/AI-Response-Drafter.git"
@@ -20,7 +22,11 @@
   "homepage": "https://github.com/tanishamahajan23/AI-Response-Drafter#readme",
   "dependencies": {
     "@google/genai": "^2.10.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
