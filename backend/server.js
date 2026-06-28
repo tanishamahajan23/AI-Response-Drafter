@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
     res.send("Server working.");
 });
 
-const port= process.env.PORT || 3000;
+const port= 5000;
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 });
@@ -115,6 +115,7 @@ Return ONLY valid text.
 
     const text = response.text;
     console.log("Response from AI:", text);
+    
     const result = JSON.parse(text);
 
     res.send(JSON.stringify(result));
