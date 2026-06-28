@@ -20,30 +20,6 @@ form.addEventListener("submit", async (event) => {
 
     loading.hidden = false;
 
-    // try {
-
-        
-    //     const formData = {
-    //         name: nameInput.value,
-    //         interest: interestInput.value,
-    //         message: messageInput.value
-    //     };
-
-    //     // Send data to backend
-    //     const response = await fetch("http://localhost:3000/generate", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(formData)
-    //     });
-
-    //     const data = await response.json();
-
-    //     replyBox.value = data.reply;
-    //     scoreBox.textContent = `${data.score}/10`;
-    //     reasoningBox.textContent = data.reasoning;
-    //}
     try {
         const formData = {
              name: nameInput.value,
