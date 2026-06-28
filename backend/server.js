@@ -5,7 +5,7 @@ import { GoogleGenAI } from '@google/genai';
 
 const app=express();
 
-app.use(cors({origin:"https://ai-response-drafter.vercel.app/"}));
+app.use(cors({origin:"https://ai-response-drafter.vercel.app"}));
 app.use(express.json());
 
 const ai = new GoogleGenAI({
