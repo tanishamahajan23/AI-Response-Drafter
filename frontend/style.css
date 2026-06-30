@@ -63,7 +63,12 @@ body {
     color: var(--text-muted);
     font-size: 1.05rem;
 }
-
+h4{
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    text-align: center;
+    justify-content: center;
+}
 .or {
     text-align: center;
     margin: 24px 0;
@@ -73,7 +78,7 @@ body {
 
 /* ===== Cards ===== */
 
-.card {
+.card,resultsSection {
     background: var(--surface);
     backdrop-filter: blur(12px);
 
@@ -153,7 +158,7 @@ textarea {
 
 /* ===== Main Button ===== */
 
-.btn {
+.btn,#downloadBtn {
     width: 100%;
 
     padding: 15px 20px;
@@ -174,12 +179,12 @@ textarea {
     transition: all 0.25s ease;
 }
 
-.btn:hover {
+.btn:hover,#downloadBtn:hover {
     background: var(--primary-hover);
     transform: translateY(-1px);
 }
 
-.btn:active {
+.btn:active,#downloadBtn:active {
     transform: translateY(0);
 }
 

@@ -22,7 +22,9 @@ const clearBtn = document.getElementById("clearBtn");
 
 const csvData=[];
 
-
+function wait(){
+    document.getElementById("h4").hidden=true;
+}
 function showPreview(rows) {
     
     const tbody =
@@ -32,10 +34,6 @@ function showPreview(rows) {
 
     rows.forEach(row => {
 
-         if(row.name?.trim() === "" && row.interest?.trim() === "" && row.message?.trim() === "") {
-            return;
-        }
-        
         tbody.innerHTML += `
             <tr>
                 <td>${row.name}</td>
@@ -49,7 +47,7 @@ document.getElementById("previewTable").hidden = false;
 }
 
 function showResults(rows){
-    console.log("showResults called");
+
     const tbody =
         document.querySelector("#resultsTable tbody");
 
@@ -70,6 +68,7 @@ function showResults(rows){
     }
 );
 document.getElementById("resultsSection").hidden = false;
+wait();
 }
 
 fileInput.addEventListener("change", () => {
@@ -82,6 +81,8 @@ fileInput.addEventListener("change", () => {
     Papa.parse(file, {
 
         header:true,
+
+        skipEmptyLines:true,
 
         complete: function(results){
 
@@ -111,8 +112,10 @@ fileInput.addEventListener("change", () => {
 form.addEventListener("submit", async (event) => {
 
 event.preventDefault();
-document.getElementById("previewTable").hidden = true;
+document.getElementById("resultsSection").hidden = true;
+document.getElementById("h4").hidden=true;
 document.getElementById("formOutput").hidden = true;
+
 
 const formFilled =
         nameInput.value.trim() ||
@@ -167,6 +170,7 @@ else if(formFilled){
 }
 
 else {
+    document.getElementById("h4").hidden=false;
 
     loading.hidden = false;
     Papa.parse(file, {
@@ -174,20 +178,28 @@ else {
     complete: async function(results) {
 
     const result = results.data;
-
+    csvData.length = 0;
     for (const row of result) {
 
-        if (!row.message?.trim()) {
+        if (
+        !row.name?.trim() &&
+        !row.interest?.trim() &&
+        !row.message?.trim()
+    ) {
+        continue;
+    }
 
-            csvData.push({
-                ...row,
-                reply: "Skipped",
-                score: "N/A",
-                reasoning: "No message provided."
-            });
+    if (!row.message?.trim()) {
 
-            continue;
-        }
+        csvData.push({
+            ...row,
+            reply: "Skipped",
+            score: "N/A",
+            reasoning: "No message provided."
+        });
+
+        continue;
+    }
 
         const response = await fetch(
             "http://127.0.0.1:5000/generate",

@@ -69,7 +69,9 @@
                     >
                 </div>
 
-                <table id="previewTable" hidden>
+                <section id="previewTable" hidden>
+                    <p class="or">Preview table</p>
+                <table>
         <thead>
         <tr>
             <th>Name</th>
@@ -80,7 +82,8 @@
 
         <tbody></tbody>
         </table>
-        
+        </section>
+
                 <button type="submit" class="btn">
                     Generate Reply
                 </button>
@@ -89,32 +92,19 @@
 
         </section>
 
-        <table id="previewTable" hidden>
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Interest</th>
-            <th>Message</th>
-        </tr>
-        </thead>
-
-        <tbody></tbody>
-        </table>
-
-        <section id="resultsSection">
-
-
-
-        <table id="resultsTable" hidden>
+        <div id="resultsSection" hidden>
+            <h4 hidden id="h4">Please wait...</h4>
+        <table id="resultsTable">
 
             <thead>
 
                 <tr>
                     <th>Name</th>
                     <th>Interest</th>
+                    <th>Message</th>
+                    <th>Reply</th>
                     <th>Score</th>
                     <th>Reasoning</th>
-                    <th>Reply</th>
                 </tr>
 
             </thead>
@@ -123,11 +113,11 @@
 
         </table>
 
-        <button id="downloadBtn" hidden>
+        <button id="downloadBtn">
             Download CSV
         </button>
 
-    </section>
+    </div>
 
 <div id="formOutput" hidden>
         <section class="card">
