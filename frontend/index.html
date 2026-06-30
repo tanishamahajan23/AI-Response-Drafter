@@ -33,7 +33,7 @@
                         type="text"
                         id="name"
                         placeholder="e.g. Ahmed K."
-                        required
+                       
                     >
                 </div>
 
@@ -43,7 +43,7 @@
                         type="text"
                         id="interest"
                         placeholder="e.g. 2BR, Dubai Marina"
-                        required
+                        
                     >
                 </div>
 
@@ -51,12 +51,36 @@
                     <label for="message">Message Received</label>
                     <textarea
                         id="message"
-                        rows="6"
+                        rows="4"
                         placeholder="Paste the lead's message here..."
-                        required
+                        
                     ></textarea>
                 </div>
 
+                <p class="or"><strong>— OR —</strong></p>
+
+                <div class="form-group">
+                    <label for="file">Input file (CSV):</label>
+                    <input
+                        type="file"
+                        id="file"
+                        accept=".csv"
+                        
+                    >
+                </div>
+
+                <table id="previewTable" hidden>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Interest</th>
+            <th>Message</th>
+        </tr>
+        </thead>
+
+        <tbody></tbody>
+        </table>
+        
                 <button type="submit" class="btn">
                     Generate Reply
                 </button>
@@ -65,7 +89,47 @@
 
         </section>
 
+        <table id="previewTable" hidden>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Interest</th>
+            <th>Message</th>
+        </tr>
+        </thead>
 
+        <tbody></tbody>
+        </table>
+
+        <section id="resultsSection">
+
+
+
+        <table id="resultsTable" hidden>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Interest</th>
+                    <th>Score</th>
+                    <th>Reasoning</th>
+                    <th>Reply</th>
+                </tr>
+
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+
+        <button id="downloadBtn" hidden>
+            Download CSV
+        </button>
+
+    </section>
+
+<div id="formOutput" hidden>
         <section class="card">
 
             <h2>AI Analysis</h2>
@@ -115,12 +179,13 @@
                     </button>
                 </div>
 
-            </div>..
+            </div>
 
         </section>
-
+</div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.5.3/papaparse.min.js"></script>
     <script src="script.js"></script>
 
 </body>

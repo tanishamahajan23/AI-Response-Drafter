@@ -5,7 +5,7 @@ import { GoogleGenAI } from '@google/genai';
 
 const app=express();
 
-app.use(cors({origin:"https://ai-response-drafter.vercel.app"}));
+app.use(cors());
 app.use(express.json());
 
 const ai = new GoogleGenAI({
@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
     res.send("Server working.");
 });
 
-const port= process.env.PORT || 5000;
+const port=  5000;
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 });
@@ -106,7 +106,7 @@ Return ONLY valid text.
 
 `;
     const response = await ai.models.generateContent({
-    model: "gemini-3.1-flash-lite",
+    model: "gemini-2.5-flash-lite",
     config: {
         responseMimeType: "application/json"
     },

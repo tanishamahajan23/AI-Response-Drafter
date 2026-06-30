@@ -1,33 +1,155 @@
+
 const form = document.getElementById("inputForm");
 const nameInput = document.getElementById("name");
 const interestInput = document.getElementById("interest");
 const messageInput = document.getElementById("message");
-
+const fileInput = document.getElementById("file");
 const loading = document.getElementById("loading");
 
 const replyBox = document.getElementById("reply");
 const scoreBox = document.getElementById("score");
 const reasoningBox = document.getElementById("reasoning");
 
+const resultsSection = document.getElementById("resultsSection");
+const preview =
+    document.querySelector("#previewTable");
+
+const downloadBtn =
+    document.getElementById("downloadBtn");
+
 const copyBtn = document.getElementById("copyBtn");
 const clearBtn = document.getElementById("clearBtn");
+
+const csvData=[];
+
+
+function showPreview(rows) {
+    
+    const tbody =
+        document.querySelector("#previewTable tbody");
+
+    tbody.innerHTML = "";
+
+    rows.forEach(row => {
+
+         if(row.name?.trim() === "" && row.interest?.trim() === "" && row.message?.trim() === "") {
+            return;
+        }
+        
+        tbody.innerHTML += `
+            <tr>
+                <td>${row.name}</td>
+                <td>${row.interest}</td>
+                <td>${row.message}</td>
+            </tr>
+        `;
+    }
+);
+document.getElementById("previewTable").hidden = false;
+}
+
+function showResults(rows){
+    console.log("showResults called");
+    const tbody =
+        document.querySelector("#resultsTable tbody");
+
+    tbody.innerHTML = "";
+
+    rows.forEach(row => {
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${row.name}</td>
+                <td>${row.interest}</td>
+                <td>${row.message}</td>
+                <td>${row.reply}</td>
+                <td>${row.score}</td>
+                <td>${row.reasoning}</td>
+            </tr>
+        `;
+    }
+);
+document.getElementById("resultsSection").hidden = false;
+}
+
+fileInput.addEventListener("change", () => {
+
+    document.getElementById("previewTable").hidden = true;
+    const file = fileInput.files[0];
+
+    if(!file) return;
+
+    Papa.parse(file, {
+
+        header:true,
+
+        complete: function(results){
+
+            const uploadedRows = results.data.filter(row =>
+
+                row.name?.trim() ||
+                row.interest?.trim() ||
+                row.message?.trim()
+
+            );
+
+            if(uploadedRows.length > 25){
+
+                alert("Maximum 25 leads allowed.");
+                fileInput.value="";
+                return;
+            }
+
+            showPreview(uploadedRows);
+        }
+
+    });
+
+});
 
 
 form.addEventListener("submit", async (event) => {
 
+event.preventDefault();
+document.getElementById("previewTable").hidden = true;
+document.getElementById("formOutput").hidden = true;
+
+const formFilled =
+        nameInput.value.trim() ||
+        interestInput.value.trim() ||
+        messageInput.value.trim();
+
+    const file = document.getElementById("file").files[0];
+
+try{
+if (formFilled && file) {
+
+        alert("Please either fill the form OR upload a CSV file.");
+
+        return;
+}
+
+
+else if (!formFilled && !file) {
+        alert("Please fill the form or upload a CSV file.");
+
+        return;
+}
+
+
+else if(formFilled){
     
-    event.preventDefault();
 
     loading.hidden = false;
+    document.getElementById("formOutput").hidden = false;
 
-    try {
         const formData = {
              name: nameInput.value,
             interest: interestInput.value,
              message: messageInput.value
          };
 
-    const response = await fetch("https://ai-response-drafter-backend.onrender.com/generate", {
+    const response = await fetch("http://127.0.0.1:5000/generate", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -36,14 +158,66 @@ form.addEventListener("submit", async (event) => {
     });
 
     const text = await response.text();
-    
 
     const data = JSON.parse(text);
 
         replyBox.value = data.reply;
         scoreBox.textContent = `${data.score}/10`;
         reasoningBox.textContent = data.reasoning;
+}
 
+else {
+
+    loading.hidden = false;
+    Papa.parse(file, {
+    header: true,
+    complete: async function(results) {
+
+    const result = results.data;
+
+    for (const row of result) {
+
+        if (!row.message?.trim()) {
+
+            csvData.push({
+                ...row,
+                reply: "Skipped",
+                score: "N/A",
+                reasoning: "No message provided."
+            });
+
+            continue;
+        }
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/generate",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(row)
+            }
+        );
+
+        const text = await response.text();
+
+        const data = JSON.parse(text);
+
+        csvData.push({
+            ...row,
+            reply: data.reply,
+            score: data.score,
+            reasoning: data.reasoning
+        });
+    }
+
+    csvData.sort((a, b) => b.score - a.score);
+    console.log(csvData);
+    showResults(csvData);
+}
+});
+}
 }
 catch (error) {
 
@@ -61,8 +235,6 @@ catch (error) {
         loading.hidden = true;
     }
 });
-
-
 
 copyBtn.addEventListener("click", async () => {
 
@@ -93,3 +265,33 @@ clearBtn.addEventListener("click", () => {
     reasoningBox.textContent =
         "Query Analysis will appear here.";
 });
+
+downloadBtn.addEventListener("click",()=>{
+
+    const csv = Papa.unparse(csvData);
+
+    const blob = new Blob(
+        [csv],
+        {type:"text/csv"}
+    );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "responses.csv";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+
+;})
