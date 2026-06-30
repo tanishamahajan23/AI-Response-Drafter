@@ -72,7 +72,7 @@ wait();
 }
 
 fileInput.addEventListener("change", () => {
-
+    document.getElementById("h4").hidden=true;
     document.getElementById("previewTable").hidden = true;
     const file = fileInput.files[0];
 
@@ -170,6 +170,7 @@ else if(formFilled){
 }
 
 else {
+    document.getElementById("h4").hidden=true;
     document.getElementById("h4").hidden=false;
 
     loading.hidden = false;
